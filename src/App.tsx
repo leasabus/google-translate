@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useReducer } from 'react'
+import { useStore } from './hooks/UseStore'
+import { AUTO_LANGUAGE } from './types/constants';
+import { FaExchangeAlt } from 'react-icons/fa'
+import { LanguageSelector } from './components/LanguageSelector';
 
-function App() {
-  const [count, setCount] = useState(0)
+
+
+export const App = () => {
+  const { fromLanguage, setFromLanguage, toLanguage, setToLanguage, interchangeLanguages } = useStore();
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <>
+      <div className='flex flex-row gap-6 items-center justify-center m-auto h-[100vh]'>
+        {/*5º mediante una funcion aplicamos el dispach pasandole la action y el payload */}
+        <div className='flex flex-col'>
+          <LanguageSelector
+            type='from'
+            value={fromLanguage}
+            onChange={setFromLanguage} />
+          {fromLanguage}
+        </div>
+
+        <div onClick={interchangeLanguages} >
+          <button className='text-slate-500'><FaExchangeAlt size={18} /></button>
+        </div>
+
+        <div className='flex flex-col'>
+          <LanguageSelector
+            type='to'
+            value={toLanguage}
+            onChange={setToLanguage} />
+          <span>{toLanguage}</span>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    </>
   )
 }
+
 
 export default App
